@@ -4,6 +4,7 @@ export const useAuthStore = defineStore("authStore", {
   state: () => {
     return {
       user: "jon",
+      errors: {},
     };
   },
   actions: {
@@ -14,7 +15,11 @@ export const useAuthStore = defineStore("authStore", {
       });
 
       const data = await res.json();
-      console.log(data);
+      if (data.errors) {
+        this.errors = data.errors;
+      } else {
+        console.log(data);
+      }
     },
   },
 });

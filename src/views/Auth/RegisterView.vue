@@ -2,6 +2,7 @@
 import { useAuthStore } from '@/stores/auth';
 import { reactive } from 'vue';
 
+const authStore = useAuthStore();
 const { authenticate } = useAuthStore();
 
 const formData = reactive({
@@ -22,6 +23,7 @@ const formData = reactive({
         >
             <div>
                 <input type="text" placeholder="Name" v-model="formData.name" />
+                <p>{{ authStore.errors.name }}</p>
             </div>
 
             <div>
