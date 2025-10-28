@@ -6,9 +6,6 @@ export const useAuthStore = defineStore("authStore", {
       user: "jon",
     };
   },
-  //   getters: {
-  //     userAge: (state) => `${state.user} is 25 years old`,
-  //   },
   actions: {
     async authenticate(apiRoute,formData) {
       const res = await fetch(`/api/${apiRoute}`, {

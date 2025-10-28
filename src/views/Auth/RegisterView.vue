@@ -2,7 +2,7 @@
 import { useAuthStore } from '@/stores/auth';
 import { reactive } from 'vue';
 
-const authStore = useAuthStore();
+const { authenticate } = useAuthStore();
 
 const formData = reactive({
     name: "",
@@ -17,12 +17,7 @@ const formData = reactive({
     <main>
         <h1 class="title">Register a new account</h1>
 
-        <form 
-            @submit.prevent="
-                () => {
-                    authStore.authenticate('register', formData);
-                }
-            "
+        <form @submit.prevent="authenticate('register', formData)" 
             class="w-1/2 mx-auto space-y-6"
         >
             <div>
