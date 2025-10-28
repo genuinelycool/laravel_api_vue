@@ -1,8 +1,9 @@
 <script setup>
 import { useAuthStore } from '@/stores/auth';
+import { storeToRefs } from 'pinia';
 import { reactive } from 'vue';
 
-const authStore = useAuthStore();
+const { errors } = storeToRefs(useAuthStore());
 const { authenticate } = useAuthStore();
 
 const formData = reactive({
@@ -23,7 +24,7 @@ const formData = reactive({
         >
             <div>
                 <input type="text" placeholder="Name" v-model="formData.name" />
-                <p>{{ authStore.errors.name }}</p>
+                <p>{{ errors.name }}</p>
             </div>
 
             <div>
