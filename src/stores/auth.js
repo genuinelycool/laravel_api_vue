@@ -3,7 +3,7 @@ import { defineStore } from "pinia";
 export const useAuthStore = defineStore("authStore", {
   state: () => {
     return {
-      user: "jon",
+      user: null,
       errors: {},
     };
   },
@@ -18,7 +18,9 @@ export const useAuthStore = defineStore("authStore", {
       if (data.errors) {
         this.errors = data.errors;
       } else {
-        console.log(data);
+        localStorage.setItem('token', data.token);
+        this.user = data.user;
+        // redirect
       }
     },
   },
