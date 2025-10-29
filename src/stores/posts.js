@@ -22,7 +22,7 @@ export const usePostsStore = defineStore("postsStore", {
       if (data.errors) {
         this.errors = data.errors;
       } else {
-        console.log(data);
+        this.router.push({ name: "home" });
       }
     },
   },
