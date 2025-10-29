@@ -17,6 +17,16 @@ export const usePostsStore = defineStore("postsStore", {
         return data;
     },
 
+    /***************** Get a post  *****************/
+    async getPost(post) {
+        const res = await fetch(`/api/posts/${post}`);
+        const data = await res.json();
+
+        console.log(data);
+        
+        return data.post;
+    },
+
     /***************** Create a post *****************/
     async createPost(formData) {
       const res = await fetch("/api/posts", {
