@@ -35,10 +35,31 @@ export const useAuthStore = defineStore("authStore", {
       if (data.errors) {
         this.errors = data.errors;
       } else {
+        this.errors = {};
         localStorage.setItem('token', data.token);
         this.user = data.user;
         this.router.push({ name: "home" });
       }
     },
+
+    /***************** Logout user *****************/
+    async logout() {
+      const res = await fetch("/api/logout", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+
+      const data = await res.json();
+      console.log(data);
+
+      if (res.ok) {
+        this.user = null;
+        this.errors = {};
+        localStorage.removeItem("token");
+        this.router.push({ name: "home" });
+      }
+    }
   },
 });
