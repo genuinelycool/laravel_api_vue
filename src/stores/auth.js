@@ -20,7 +20,7 @@ export const useAuthStore = defineStore("authStore", {
       } else {
         localStorage.setItem('token', data.token);
         this.user = data.user;
-        // redirect
+        this.router.push({ name: "home" });
       }
     },
   },
