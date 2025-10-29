@@ -8,6 +8,23 @@ export const useAuthStore = defineStore("authStore", {
     };
   },
   actions: {
+    /***************** Get authenticated user *****************/
+    async getUser() {
+      if (localStorage.getItem("token")) {
+        const res = await fetch("/api/user", {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
+        const data = await res.json();
+        if (res.ok) {
+          this.user = data;
+        }
+        console.log(data);
+      }
+    },
+
+    /***************** Login or Register user *****************/
     async authenticate(apiRoute,formData) {
       const res = await fetch(`/api/${apiRoute}`, {
         method: "POST",
