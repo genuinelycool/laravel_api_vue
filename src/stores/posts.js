@@ -13,8 +13,6 @@ export const usePostsStore = defineStore("postsStore", {
       const res = await fetch("/api/posts");
       const data = await res.json();
 
-      console.log(data);
-
       return data;
     },
 
@@ -22,8 +20,6 @@ export const usePostsStore = defineStore("postsStore", {
     async getPost(post) {
       const res = await fetch(`/api/posts/${post}`);
       const data = await res.json();
-
-      console.log(data);
 
       return data.post;
     },
@@ -63,8 +59,6 @@ export const usePostsStore = defineStore("postsStore", {
           this.router.push({ name: "home" });
         }
         console.log(data);
-      } else {
-        console.log("You do not own this post");
       }
     },
   },
