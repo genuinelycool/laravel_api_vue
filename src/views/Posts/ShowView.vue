@@ -2,7 +2,7 @@
 import { useAuthStore } from '@/stores/auth';
 import { usePostsStore } from '@/stores/posts';
 import { onMounted, ref } from 'vue';
-import { useRoute } from 'vue-router';
+import { RouterLink, useRoute } from 'vue-router';
 
 const route = useRoute();
 const { getPost, deletePost } = usePostsStore();
@@ -35,6 +35,11 @@ onMounted(async () => (post.value = await getPost(route.params.id)));
                             Delete
                         </button>
                     </form>
+
+                    <RouterLink 
+                        :to="{ name: 'update', params: { id: post.id } }"
+                        class="text-green-500 font-bold px-2 py-1 border border-green-300"
+                    >Update</RouterLink>
                 </div>
 
             </div>
