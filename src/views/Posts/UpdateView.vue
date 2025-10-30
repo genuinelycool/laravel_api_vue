@@ -1,10 +1,13 @@
 <script setup>
+import { useAuthStore } from '@/stores/auth';
 import { usePostsStore } from '@/stores/posts';
 import { storeToRefs } from 'pinia';
 import { onMounted, reactive, ref } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 
+const router = useRouter();
 const route = useRoute();
+const { user } = storeToRefs(useAuthStore());
 const { errors } = storeToRefs(usePostsStore());
 const { getPost } = usePostsStore();
 
@@ -18,8 +21,12 @@ const formData = reactive({
 onMounted(async () => {
     post.value = await getPost(route.params.id);
 
-    formData.title = post.value.title;
-    formData.body = post.value.body;
+    if (user.value.id !== post.value.user_id) {
+        router.push({ name: 'home' });
+    } else {
+        formData.title = post.value.title;
+        formData.body = post.value.body;
+    }
 });
 </script>
 
