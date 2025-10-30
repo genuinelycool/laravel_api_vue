@@ -1,13 +1,25 @@
 <script setup>
 import { usePostsStore } from '@/stores/posts';
 import { storeToRefs } from 'pinia';
-import { reactive } from 'vue';
+import { onMounted, reactive, ref } from 'vue';
+import { useRoute } from 'vue-router';
 
+const route = useRoute();
 const { errors } = storeToRefs(usePostsStore());
+const { getPost } = usePostsStore();
+
+const post = ref(null);
 
 const formData = reactive({
     title: '',
     body: ''
+});
+
+onMounted(async () => {
+    post.value = await getPost(route.params.id);
+
+    formData.title = post.value.title;
+    formData.body = post.value.body;
 });
 </script>
 
