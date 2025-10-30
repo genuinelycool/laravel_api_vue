@@ -9,7 +9,7 @@ const router = useRouter();
 const route = useRoute();
 const { user } = storeToRefs(useAuthStore());
 const { errors } = storeToRefs(usePostsStore());
-const { getPost } = usePostsStore();
+const { getPost, updatePost } = usePostsStore();
 
 const post = ref(null);
 
@@ -35,7 +35,7 @@ onMounted(async () => {
         <h1 class="title">Update your post</h1>
 
         <form 
-            
+            @submit.prevent="updatePost(post, formData)" 
             class="w-1/2 mx-auto space-y-6"
         >
             <div>
