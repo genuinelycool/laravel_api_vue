@@ -1,10 +1,12 @@
 <script setup>
+import { useAuthStore } from '@/stores/auth';
 import { usePostsStore } from '@/stores/posts';
 import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 
 const route = useRoute();
-const { getPost } = usePostsStore();
+const { getPost, deletePost } = usePostsStore();
+const authStore = useAuthStore();
 const post = ref(null);
 
 onMounted(async () => (post.value = await getPost(route.params.id)));
@@ -21,6 +23,20 @@ onMounted(async () => (post.value = await getPost(route.params.id)));
                 <p>
                     {{ post.body }}                 
                 </p>
+
+                <div 
+                    v-if="authStore.user && authStore.user.id === post.user_id"                   
+                    class="flex items-center gap-6 mt-6"
+                >
+                    <form @submit.prevent="deletePost(post)">
+                        <button 
+                            class="text-red-500 font-bold px-2 py-1 border border-red-300"
+                        >
+                            Delete
+                        </button>
+                    </form>
+                </div>
+
             </div>
         </div>
         <div v-else>

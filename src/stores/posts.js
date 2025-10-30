@@ -1,4 +1,5 @@
 import { defineStore } from "pinia";
+import { useAuthStore } from "./auth";
 
 export const usePostsStore = defineStore("postsStore", {
   state: () => {
@@ -9,22 +10,22 @@ export const usePostsStore = defineStore("postsStore", {
   actions: {
     /***************** Get all posts  *****************/
     async getAllPosts() {
-        const res = await fetch("/api/posts");
-        const data = await res.json();
+      const res = await fetch("/api/posts");
+      const data = await res.json();
 
-        console.log(data);
-        
-        return data;
+      console.log(data);
+
+      return data;
     },
 
     /***************** Get a post  *****************/
     async getPost(post) {
-        const res = await fetch(`/api/posts/${post}`);
-        const data = await res.json();
+      const res = await fetch(`/api/posts/${post}`);
+      const data = await res.json();
 
-        console.log(data);
-        
-        return data.post;
+      console.log(data);
+
+      return data.post;
     },
 
     /***************** Create a post *****************/
@@ -43,6 +44,27 @@ export const usePostsStore = defineStore("postsStore", {
         this.errors = data.errors;
       } else {
         this.router.push({ name: "home" });
+      }
+    },
+
+    /***************** Delete a post *****************/
+    async deletePost(post) {
+      const authStore = useAuthStore();
+      if (authStore.user.id === post.user_id) {
+        const res = await fetch(`/api/posts/${post.id}`, {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
+
+        const data = await res.json();
+        if (res.ok) {
+          this.router.push({ name: "home" });
+        }
+        console.log(data);
+      } else {
+        console.log("You do not own this post");
       }
     },
   },
